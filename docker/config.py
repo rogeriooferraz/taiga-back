@@ -33,6 +33,9 @@ TAIGA_SITES_SCHEME = os.getenv('TAIGA_SITES_SCHEME')
 TAIGA_SITES_DOMAIN = os.getenv('TAIGA_SITES_DOMAIN')
 FORCE_SCRIPT_NAME = os.getenv('TAIGA_SUBPATH', '')
 
+ALLOWED_HOSTS = [TAIGA_SITES_DOMAIN]
+USE_X_FORWARDED_HOST = False
+
 TAIGA_URL = f"{ TAIGA_SITES_SCHEME }://{ TAIGA_SITES_DOMAIN }{ FORCE_SCRIPT_NAME }"
 SITES = {
         "api": { "name": "api", "scheme": TAIGA_SITES_SCHEME, "domain": TAIGA_SITES_DOMAIN },
@@ -112,6 +115,8 @@ CELERY_RESULT_BACKEND = None # for a general installation, we don't need to stor
 CELERY_ACCEPT_CONTENT = ['pickle', ]  # Values are 'pickle', 'json', 'msgpack' and 'yaml'
 CELERY_TASK_SERIALIZER = "pickle"
 CELERY_RESULT_SERIALIZER = "pickle"
+CELERY_CONTROL_QUEUE_EXCLUSIVE = True
+CELERY_EVENT_QUEUE_EXCLUSIVE = True
 CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE', 'Europe/Madrid')
 CELERY_TASK_DEFAULT_QUEUE = 'tasks'
 CELERY_QUEUES = (

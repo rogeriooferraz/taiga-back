@@ -7,9 +7,9 @@
 
 from django import http
 from django.conf import settings
+from django.utils.cache import patch_vary_headers
 
 
-CORS_ALLOWED_ORIGINS = "*"
 CORS_ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
 CORS_ALLOWED_HEADERS = ["content-type", "x-requested-with",
                         "authorization", "accept-encoding",
@@ -28,14 +28,19 @@ class CorsMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        self.process_request(request)
-        response = self.get_response(request)
-        self.process_response(request, response)
+        response = self.process_request(request)
+        if response is None:
+            response = self.get_response(request)
+        return self.process_response(request, response)
 
-        return response
-
-    def _populate_response(self, response):
-        response["Access-Control-Allow-Origin"] = CORS_ALLOWED_ORIGINS
+    def _populate_response(self, request, response):
+        origin = request.headers.get("origin")
+        front = settings.SITES["front"]
+        allowed_origin = f"{front['scheme']}://{front['domain']}"
+        patch_vary_headers(response, ["Origin"])
+        if origin != allowed_origin:
+            return response
+        response["Access-Control-Allow-Origin"] = origin
         response["Access-Control-Allow-Methods"] = ",".join(CORS_ALLOWED_METHODS)
         response["Access-Control-Allow-Headers"] = ",".join(CORS_ALLOWED_HEADERS)
         response["Access-Control-Expose-Headers"] = ",".join(CORS_EXPOSE_HEADERS + CORS_EXTRA_EXPOSE_HEADERS)
@@ -43,14 +48,16 @@ class CorsMiddleware(object):
 
         if CORS_ALLOWED_CREDENTIALS:
             response["Access-Control-Allow-Credentials"] = "true"
+        return response
 
     def process_request(self, request):
         if "access-control-request-method" in request.headers:
-            response = http.HttpResponse()
-            self._populate_response(response)
-            return response
+            front = settings.SITES["front"]
+            allowed_origin = f"{front['scheme']}://{front['domain']}"
+            if request.headers.get("origin") != allowed_origin:
+                return http.HttpResponseForbidden()
+            return self._populate_response(request, http.HttpResponse(status=204))
         return None
 
     def process_response(self, request, response):
-        self._populate_response(response)
-        return response
+        return self._populate_response(request, response)
