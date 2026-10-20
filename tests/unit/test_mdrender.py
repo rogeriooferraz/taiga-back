@@ -9,7 +9,7 @@ from unittest.mock import patch, MagicMock
 
 from taiga.mdrender.extensions import emojify
 from taiga.mdrender.extensions import refresh_attachment
-from taiga.mdrender.service import render, cache_by_sha, get_diff_of_htmls, render_and_extract
+from taiga.mdrender.service import render, cache_by_sha, get_diff_of_htmls, render_and_extract, clean_markdown
 from taiga.projects.attachments.services import REFRESH_PARAM
 
 import time
@@ -133,6 +133,17 @@ def test_render_wiki_strong():
     assert render(dummy_project, "__test__") == "<p><strong>test</strong></p>"
 
 
+def test_markdown_sanitizer_rejects_script_links_and_css_urls():
+    result = clean_markdown('<a href="javascript:alert(1)">click</a>'
+                            '<span style="background:url(https://evil.example/x);'
+                            'background-color:#e6ffe6">safe</span>'
+                            '<script>alert(1)</script>')
+    assert 'href=' not in result
+    assert 'url(' not in result
+    assert 'background-color:#e6ffe6' in result
+    assert '<script' not in result
+
+
 def test_render_wiki_italic():
     assert render(dummy_project, "*test*") == "<p><em>test</em></p>"
     assert render(dummy_project, "_test_") == "<p><em>test</em></p>"
@@ -244,13 +255,13 @@ def test_render_relative_image():
 
 
 def test_render_triple_quote_code():
-    expected_result = '<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>\n</code></pre></div>'
+    expected_result = '<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>\n</code></pre></div>'
 
     assert render(dummy_project, "```python\nprint(\"test\")\n```") == expected_result
 
 
 def test_render_triple_quote_and_lang_code():
-    expected_result = '<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>\n</code></pre></div>'
+    expected_result = '<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"test"</span><span class="p">)</span>\n</code></pre></div>'
 
     assert render(dummy_project, "```python\nprint(\"test\")\n```") == expected_result
 
@@ -338,4 +349,4 @@ def test_render_attachment_file(settings):
 
 
 def test_render_markdown_to_html():
-    assert render(dummy_project, "- [x] test") == "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-control\"><input checked type=\"checkbox\"><span class=\"task-list-indicator\"></span></label> test</li>\n</ul>"
+    assert render(dummy_project, "- [x] test") == "<ul class=\"task-list\">\n<li class=\"task-list-item\"><label class=\"task-list-control\"><input type=\"checkbox\" checked><span class=\"task-list-indicator\"></span></label> test</li>\n</ul>"

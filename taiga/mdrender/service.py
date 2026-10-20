@@ -10,6 +10,8 @@ from django.conf import settings
 import hashlib
 import functools
 import bleach
+from bleach.css_sanitizer import CSSSanitizer
+from bleach.sanitizer import ALLOWED_ATTRIBUTES, ALLOWED_TAGS
 
 # BEGIN PATCH
 import html5lib
@@ -45,19 +47,26 @@ from .extensions.target_link import TargetBlankLinkExtension
 from .extensions.refresh_attachment import RefreshAttachmentExtension
 
 # Bleach configuration
-bleach.ALLOWED_TAGS += ["p", "table", "thead", "tbody", "th", "tr", "td", "h1",
-                        "h2", "h3", "h4", "h5", "h6", "div", "pre", "span",
-                        "hr", "dl", "dt", "dd", "sup", "img", "del", "br",
-                        "ins", "input", "label"]
+MD_ALLOWED_TAGS = ALLOWED_TAGS | {"p", "table", "thead", "tbody", "th", "tr", "td", "h1",
+                                  "h2", "h3", "h4", "h5", "h6", "div", "pre", "span",
+                                  "hr", "dl", "dt", "dd", "sup", "img", "del", "br",
+                                  "ins", "input", "label"}
+MD_ALLOWED_ATTRIBUTES = {
+    **ALLOWED_ATTRIBUTES,
+    "a": ["href", "title", "alt", "target"],
+    "img": ["alt", "src"],
+    "input": ["type", "checked"],
+    "*": ["class", "style", "id"],
+}
+MD_ALLOWED_PROTOCOLS = {"http", "https", "ftp", "mailto"}
+MD_CSS_SANITIZER = CSSSanitizer(allowed_css_properties={"background-color"})
 
-bleach.ALLOWED_STYLES.append("background")
 
-bleach.ALLOWED_ATTRIBUTES["a"] = ["href", "title", "alt", "target"]
-bleach.ALLOWED_ATTRIBUTES["img"] = ["alt", "src"]
-bleach.ALLOWED_ATTRIBUTES["input"] = ["type", "checked"]
-bleach.ALLOWED_ATTRIBUTES["*"] = ["class", "style", "id"]
-
-ALLOWED_PROTOCOLS = ["http", "https", "ftp", "mailto"]
+def clean_markdown(value):
+    return bleach.clean(value, tags=MD_ALLOWED_TAGS,
+                        attributes=MD_ALLOWED_ATTRIBUTES,
+                        protocols=MD_ALLOWED_PROTOCOLS,
+                        css_sanitizer=MD_CSS_SANITIZER)
 
 
 def _make_extensions_list(project=None):
@@ -128,12 +137,12 @@ def _get_markdown(project):
 @cache_by_sha
 def render(project, text):
     md = _get_markdown(project)
-    return bleach.clean(md.convert(text), protocols=ALLOWED_PROTOCOLS)
+    return clean_markdown(md.convert(text))
 
 
 def render_and_extract(project, text):
     md = _get_markdown(project)
-    result = bleach.clean(md.convert(text), protocols=ALLOWED_PROTOCOLS)
+    result = clean_markdown(md.convert(text))
     return (result, md.extracted_data)
 
 
