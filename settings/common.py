@@ -240,8 +240,11 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-# Default storage
-DEFAULT_FILE_STORAGE = "taiga.base.storage.FileSystemStorage"
+# Django 5.2 selects storage backends through STORAGES.
+STORAGES = {
+    "default": {"BACKEND": "taiga.base.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+}
 
 FILE_UPLOAD_PERMISSIONS = 0o644
 

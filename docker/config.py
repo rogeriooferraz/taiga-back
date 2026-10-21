@@ -58,8 +58,10 @@ DEFAULT_PROJECT_SLUG_PREFIX = os.getenv('DEFAULT_PROJECT_SLUG_PREFIX', 'False') 
 ## MEDIA
 #########################################
 MEDIA_URL = f"{ TAIGA_URL }/media/"
-DEFAULT_FILE_STORAGE = "taiga_contrib_protected.storage.ProtectedFileSystemStorage"
-THUMBNAIL_DEFAULT_STORAGE = DEFAULT_FILE_STORAGE
+STORAGES["default"] = {
+    "BACKEND": "taiga_contrib_protected.storage.ProtectedFileSystemStorage",
+}
+THUMBNAIL_DEFAULT_STORAGE = STORAGES["default"]["BACKEND"]
 
 STATIC_URL = f"{ TAIGA_URL }/static/"
 
