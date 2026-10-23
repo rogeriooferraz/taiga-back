@@ -72,7 +72,10 @@ RUN set -eux; \
     rm requirements-contribs.txt; \
     find . -name '__pycache__' -exec rm -r '{}' +; \
     find . -name '*pyc' -exec rm -r '{}' +; \
-    find . -name '*po' -exec rm -r '{}' +
+    find . -name '*po' -exec rm -r '{}' +; \
+    # Packaging tools are only needed while building the image.
+    python -m pip uninstall -y pip setuptools wheel; \
+    /usr/local/bin/python -m pip uninstall -y pip setuptools wheel
 
 ENV DJANGO_SETTINGS_MODULE=settings.config
 
