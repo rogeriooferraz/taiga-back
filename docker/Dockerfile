@@ -63,6 +63,7 @@ RUN set -eux; \
     # remove unneeded files and packages
     apt-get purge -y \
         gettext \
+        mount \
         net-tools \
         procps; \
     apt-get autoremove -y; \
