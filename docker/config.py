@@ -135,6 +135,10 @@ CELERY_TASK_DEFAULT_ROUTING_KEY = 'task.default'
 #########################################
 PUBLIC_REGISTER_ENABLED = os.getenv('PUBLIC_REGISTER_ENABLED', 'False') == 'True'
 
+# Bound failed authentication attempts when an installation opts in. Successful
+# requests are not counted by LoginFailRateThrottle.
+REST_FRAMEWORK['DEFAULT_THROTTLE_RATES']['login-fail'] = os.getenv('TAIGA_LOGIN_FAIL_RATE') or None
+
 
 #########################################
 ## CONTRIBS
