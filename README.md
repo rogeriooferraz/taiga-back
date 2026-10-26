@@ -6,6 +6,20 @@
 
 ## Documentation
 
+### Instance defaults
+
+The instance defaults API lets an active Django superuser set a language and
+theme fallback without changing account preferences. `LANGUAGE_CODE` remains
+the backend and worker deployment language fallback. Pass the same value to a
+compatible frontend container. `TAIGA_AVAILABLE_THEMES` is a comma-separated
+allowlist of theme IDs shipped by that frontend image; it defaults to `taiga`.
+The admin API accepts only those theme IDs and configured backend locales.
+Mail to a registered recipient uses the account language when set, then an
+explicit message language (for example a future project choice), then the
+instance language override, then `LANGUAGE_CODE`. An operator can clear both
+overrides with `python manage.py clear_instance_defaults --actor USER --confirm`;
+the command records an audit entry.
+
 Currently, we have authored three main documentation hubs:
 
 - **[API](https://docs.taiga.io/api.html)**: Our API documentation and reference for developing from Taiga API.
