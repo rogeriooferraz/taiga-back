@@ -42,7 +42,7 @@ SITES = {
         "front": { "name": "front", "scheme": TAIGA_SITES_SCHEME, "domain": f"{ TAIGA_SITES_DOMAIN }{ FORCE_SCRIPT_NAME }" }
 }
 
-LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "en")
+LANGUAGE_CODE = os.getenv("LANGUAGE_CODE", "en-us")
 
 # Restrict admin theme choices to the stylesheets in the selected frontend image.
 INSTANCE_AVAILABLE_THEMES = tuple(
