@@ -44,6 +44,7 @@ from django.views.defaults import server_error
 from django.views.generic import View
 from django.utils.encoding import smart_str
 from django.utils.translation import gettext as _
+from django.utils.translation import activate
 
 from .request import Request
 from .settings import api_settings
@@ -365,7 +366,12 @@ class APIView(View):
         self.format_kwarg = self.get_format_suffix(**kwargs)
 
         # Ensure that the incoming request is permitted
+        from taiga.instance_settings import services as instance_settings
+
+        defaults = instance_settings.get_defaults()
+        activate(instance_settings.effective_language(defaults))
         self.perform_authentication(request)
+        activate(instance_settings.recipient_language(request.user, defaults))
         self.check_throttles(request)
 
         # Perform content negotiation and store the accepted info on the request

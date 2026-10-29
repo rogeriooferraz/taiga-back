@@ -40,6 +40,32 @@ def test_public_bootstrap_contains_only_overrides_and_revision(client):
     assert result["Cache-Control"] == "no-store"
 
 
+def test_api_language_uses_account_then_instance_then_deployment(client, settings):
+    settings.LANGUAGE_CODE = "en-us"
+    member = f.UserFactory(lang="")
+    token = bearer(client, member)
+    url = reverse("users-me")
+    requested_language = {"HTTP_ACCEPT_LANGUAGE": "de"}
+
+    result = client.get(url, **token, **requested_language)
+    assert result.status_code == 200
+    assert result["Content-Language"] == "en"
+
+    defaults = InstanceDefaults.objects.get(pk=1)
+    defaults.default_language = "pt-br"
+    defaults.save(update_fields=["default_language"])
+    assert client.get(url, **token, **requested_language)["Content-Language"] == "pt-br"
+    assert client.get(reverse("instance-defaults-public"),
+                      **requested_language)["Content-Language"] == "pt-br"
+
+    for code, _name in settings.LANGUAGES:
+        member.lang = code
+        member.save(update_fields=["lang"])
+        result = client.get(url, **token, **requested_language)
+        assert result.status_code == 200
+        assert result["Content-Language"] == code
+
+
 def test_only_instance_superuser_can_read_and_change_defaults(client, settings):
     settings.INSTANCE_AVAILABLE_THEMES = ("taiga", "taiga-dark")
     member = f.UserFactory()

@@ -22,7 +22,10 @@ def allowed_themes():
 
 
 def deployment_language():
-    return settings.LANGUAGE_CODE.lower().replace("_", "-")
+    code = settings.LANGUAGE_CODE.lower().replace("_", "-")
+    if code == "en-us":
+        return "en"
+    return code
 
 
 def get_defaults():
