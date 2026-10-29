@@ -167,7 +167,7 @@ msgstr "Nilai tidak valid."
 #: taiga/base/api/fields.py:473
 #, python-format
 msgid "'%s' value must be either True or False."
-msgstr ""
+msgstr "nilai '%s' harus True atau False"
 
 #: taiga/base/api/fields.py:538
 msgid ""

@@ -55,26 +55,25 @@ msgid "Token contained no recognizable user identification"
 msgstr ""
 
 #: taiga/auth/authentication.py:147
-#, fuzzy
 #| msgid "Not found"
 msgid "User not found"
-msgstr "Не знайдено"
+msgstr "Не знайдено користувача"
 
 #: taiga/auth/authentication.py:150
 msgid "User is inactive"
-msgstr ""
+msgstr "Користувач неактивний"
 
 #: taiga/auth/backends.py:91
 msgid "Unrecognized algorithm type '{}'"
-msgstr ""
+msgstr "Нерозпізнаний тип алгоритму \"{}\""
 
 #: taiga/auth/backends.py:94
 msgid "You must have cryptography installed to use {}."
-msgstr ""
+msgstr "Ви повинні мати криптографію, встановлену для використання {}."
 
 #: taiga/auth/backends.py:128
 msgid "Invalid algorithm specified"
-msgstr ""
+msgstr "Вказано недійсний алгоритм"
 
 #: taiga/auth/backends.py:130 taiga/auth/exceptions.py:69
 #: taiga/auth/tokens.py:75
@@ -113,11 +112,11 @@ msgstr "Користувач уже зареєстрований."
 
 #: taiga/auth/services.py:203
 msgid "Error while creating new user."
-msgstr ""
+msgstr "Помилка при створенні нового користувача."
 
 #: taiga/auth/token_denylist/admin.py:103
 msgid "jti"
-msgstr ""
+msgstr "jti"
 
 #: taiga/auth/token_denylist/admin.py:110 taiga/external_apps/models.py:47
 #: taiga/projects/contact/models.py:17 taiga/projects/likes/models.py:23

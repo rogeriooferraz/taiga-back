@@ -801,6 +801,16 @@ msgid ""
 "    <p><small>%(signature)s</small></p>\n"
 "    "
 msgstr ""
+"\n"
+"    <h1>فایل رونوشت پروژه ایجاد شد</h1>\n"
+"    <p>سلام %(user)s،</p>\n"
+"    <h3>فایل رونوشت شما از پروژه %(project)s به درستی ایجاد شد.</h3>\n"
+"    <p>می‌توانید آن را از اینجا دانلود کنید:</p>\n"
+"    <a class=\"button\" href=\"%(url)s\" title=\"دانلود فایل رونوشت\">فایل "
+"رونوشت را دانلود کنید</a>\n"
+"    <p>این فایل در تاریخ %(deletion_date)s حذف خواهد شد.</p>\n"
+"    <p><small>%(signature)s</small></p>\n"
+"    "
 
 #: taiga/export_import/templates/emails/dump_project-body-text.jinja:9
 #, python-format
@@ -818,6 +828,18 @@ msgid ""
 "---\n"
 "%(signature)s\n"
 msgstr ""
+"\n"
+"سلام %(user)s،\n"
+"\n"
+"فایل رونوشت شما از پروژه %(project)s به درستی ایجاد شده است. می‌توانید آن را "
+"از اینجا دانلود کنید:\n"
+"\n"
+"%(url)s\n"
+"\n"
+"این فایل در %(deletion_date)s حذف خواهد شد.\n"
+"\n"
+"---\n"
+"%(signature)s\n"
 
 #: taiga/export_import/templates/emails/dump_project-subject.jinja:9
 #, python-format
@@ -838,6 +860,16 @@ msgid ""
 "    <p><small>%(signature)s</small></p>\n"
 "    "
 msgstr ""
+"\n"
+"    <h1>%(error_message)s</h1>\n"
+"    <p>سلام %(user)s،</p>\n"
+"    <p>پروژه %(project)s شما به درستی صادر نشده است.</p>\n"
+"    <p>مدیران سیستم Taiga مطلع شده‌اند.<br/> لطفاً دوباره امتحان کنید یا با "
+"تیم پشتیبانی در\n"
+"    <a href=\"mailto:%(support_email)s\" title=\"ایمیل پشتیبانی\" style="
+"\"color: #83EEDE\">%(support_email)s</a></p>\n"
+"    <p><small>%(signature)s</small></p>\n"
+"    "
 
 #: taiga/export_import/templates/emails/export_error-body-text.jinja:9
 #, python-format
@@ -855,6 +887,19 @@ msgid ""
 "---\n"
 "%(signature)s\n"
 msgstr ""
+"\n"
+"سلام %(user)s،\n"
+"\n"
+"%(error_message)s\n"
+"پروژه %(project)s شما به درستی صادر نشده است.\n"
+"\n"
+"به مدیران سیستم Taiga اطلاع داده شده است.\n"
+"\n"
+"لطفاً دوباره امتحان کنید یا با تیم پشتیبانی از طریق %(support_email)s تماس "
+"بگیرید.\n"
+"\n"
+"---\n"
+"%(signature)s\n"
 
 #: taiga/export_import/templates/emails/export_error-subject.jinja:9
 #, python-format
@@ -877,6 +922,18 @@ msgid ""
 "    <pre>%(details)s</pre>\n"
 "    "
 msgstr ""
+"\n"
+"    <h1>%(error_message)s</h1>\n"
+"    <p>سلام %(user)s،</p>\n"
+"    <p>پروژه شما به درستی وارد نشده است.</p>\n"
+"    <p>به مدیران سیستم %(product_name)s اطلاع داده شده است.<br/> لطفاً دوباره "
+"امتحان کنید یا با تیم پشتیبانی از طریق\n"
+"    <a href=\"mailto:%(support_email)s\" title=\"ایمیل پشتیبانی\" style="
+"\"color: #83EEDE\">%(support_email)s</a></p>\n"
+"    <p><small>%(signature)s</small></p>\n"
+"    <h2>جزئیات خطا</h2>\n"
+"    <pre>%(details)s</pre>\n"
+"    "
 
 #: taiga/export_import/templates/emails/import_error-body-text.jinja:9
 #: taiga/importers/templates/emails/importer_import_error-body-text.jinja:9
@@ -896,6 +953,20 @@ msgid ""
 "---\n"
 "%(signature)s\n"
 msgstr ""
+"\n"
+"سلام %(user)s،\n"
+"\n"
+"%(error_message)s\n"
+"\n"
+"پروژه شما به درستی وارد نشده است.\n"
+"\n"
+"به مدیران سیستم %(product_name)s اطلاع داده شده است.\n"
+"\n"
+"لطفاً دوباره امتحان کنید یا با تیم پشتیبانی از طریق %(support_email)s تماس "
+"بگیرید.\n"
+"\n"
+"---\n"
+"%(signature)s\n"
 
 #: taiga/export_import/templates/emails/import_error-subject.jinja:9
 #: taiga/importers/templates/emails/importer_import_error-subject.jinja:9
@@ -915,6 +986,14 @@ msgid ""
 "    <p><small>%(signature)s</small></p>\n"
 "    "
 msgstr ""
+"\n"
+"    <h1>فایل پروژه وارد شد</h1>\n"
+"    <p>سلام %(user)s،</p>\n"
+"    <h3>فایل پروژه شما به درستی وارد شد.</h3>\n"
+"    <a class=\"button\" href=\"%(url)s\" title=\"برو به پروژه %(project)s\""
+">برو به %(project)s</a>\n"
+"    <p><small>%(signature)s</small></p>\n"
+"    "
 
 #: taiga/export_import/templates/emails/load_dump-body-text.jinja:9
 #, python-format
@@ -931,6 +1010,17 @@ msgid ""
 "---\n"
 "%(signature)s\n"
 msgstr ""
+"\n"
+"سلام %(user)s،\n"
+"\n"
+"فایل پروژه شما به درستی وارد شده است.\n"
+"\n"
+"شما می‌توانید پروژه %(project)s را اینجا ببینید:\n"
+"\n"
+"%(url)s\n"
+"\n"
+"---\n"
+"%(signature)s\n"
 
 #: taiga/export_import/templates/emails/load_dump-subject.jinja:9
 #, python-format
@@ -949,12 +1039,12 @@ msgstr "محتوای نامعتبر. می‌بایست {\"key\": \"value\",...} 
 #: taiga/export_import/validators/validators.py:188
 #: taiga/projects/custom_attributes/validators.py:112
 msgid "It contains invalid custom fields."
-msgstr ""
+msgstr "حاوی فیلدهای سفارشی نامعتبر است."
 
 #: taiga/export_import/validators/validators.py:268
 #: taiga/projects/validators.py:43
 msgid "Duplicated name"
-msgstr ""
+msgstr "نام تکراری"
 
 #: taiga/export_import/validators/validators.py:303
 #, python-format
@@ -962,6 +1052,8 @@ msgid ""
 "An Epic has a related story from an external project (%(project)s) and "
 "cannot be imported"
 msgstr ""
+"یک حماسه دارای یک داستان مرتبط از یک پروژه خارجی(%(project)s) است و نمی‌توان "
+"آن را وارد کرد"
 
 #: taiga/external_apps/api.py:32 taiga/external_apps/api.py:59
 #: taiga/external_apps/api.py:71
